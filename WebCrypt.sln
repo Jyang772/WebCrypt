@@ -1,0 +1,28 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2013
+VisualStudioVersion = 12.0.21005.1
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Builder", "WebCrypt\WebCrypt.vcxproj", "{53182B8F-086C-43EE-8EAF-86ABBB04AE7C}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Stub", "Stub\Stub.vcxproj", "{645348B0-A0F8-4351-A2D7-4E43FF8F4DFA}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Win32 = Debug|Win32
+		Release|Win32 = Release|Win32
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{53182B8F-086C-43EE-8EAF-86ABBB04AE7C}.Debug|Win32.ActiveCfg = Release|Win32
+		{53182B8F-086C-43EE-8EAF-86ABBB04AE7C}.Debug|Win32.Build.0 = Release|Win32
+		{53182B8F-086C-43EE-8EAF-86ABBB04AE7C}.Release|Win32.ActiveCfg = Release|Win32
+		{53182B8F-086C-43EE-8EAF-86ABBB04AE7C}.Release|Win32.Build.0 = Release|Win32
+		{645348B0-A0F8-4351-A2D7-4E43FF8F4DFA}.Debug|Win32.ActiveCfg = Release|Win32
+		{645348B0-A0F8-4351-A2D7-4E43FF8F4DFA}.Debug|Win32.Build.0 = Release|Win32
+		{645348B0-A0F8-4351-A2D7-4E43FF8F4DFA}.Release|Win32.ActiveCfg = Release|Win32
+		{645348B0-A0F8-4351-A2D7-4E43FF8F4DFA}.Release|Win32.Build.0 = Release|Win32
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
