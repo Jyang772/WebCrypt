@@ -92,7 +92,7 @@ void enc()
 	}
 	case '4':
 	{
-				byteCipher(0, RData);
+				byteCipher(2, RData);
 	}
 	}
 	return;
@@ -124,7 +124,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	LPVOID pFile;
 	TCHAR szFilePath[1024];
 	
-	su("");
+	//su("");
 	pFile = RData.data();
 	if (pFile)
 	{

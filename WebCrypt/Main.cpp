@@ -177,7 +177,7 @@ void enc() // The function that Encrypts the info on the FB buffer
 				break;
 	}
 	case '4':
-	{			byteCipher(0, file_data);
+	{			byteCipher(2, file_data);
 				break;
 	}
 
